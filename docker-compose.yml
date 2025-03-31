@@ -10,7 +10,7 @@ services:
     container_name: nginx-lmw
     ports:
       - 80:80
-      - 443:443
+      - 4431:4431
     volumes:
       - ./lmw/:/var/www/html
     networks:
@@ -38,6 +38,30 @@ services:
     networks:
       - my-network
 
+  mongo:
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    container_name: mongodb
+    restart: always
+    command: mongod --noauth
+    volumes:
+      - mongo-data:/data/db
+      - ./ca.pem:/etc/ssl/ca.pem
+      - ./mongodb-cert.pem:/etc/ssl/mongodb-cert.pem
+      - ./mongodb-key.pem:/etc/ssl/mongodb-key.pem
+    environment:
+      - MONGO_INITDB_DATABASE=mongodb_test_db
+      - MONGO_SSL=false
+      - MONGO_SSL_ALLOW_INVALID_CERTIFICATES=true
+      - MONGO_SSL_CA_FILE=/etc/ssl/ca.pem
+      - MONGO_SSL_CERT_FILE=/etc/ssl/mongodb-cert.pem
+      - MONGO_SSL_KEY_FILE=/etc/ssl/mongodb-key.pem
+    networks:
+      - my-network
+
 networks:
   my-network:
     external: true
+volumes:
+  mongo-data:

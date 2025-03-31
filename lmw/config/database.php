@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'mongodb'),
 
     /*
     |--------------------------------------------------------------------------
@@ -101,7 +101,8 @@ return [
             'username' => env('DB_USERNAME'),
             'password' => env('DB_PASSWORD'),
             'options'  => [
-                'database' => 'admin' // Default database for authentication
+                'ssl' => env('DB_SSL', false),
+                'sslAllowInvalidCertificates' => env('DB_SSL_ALLOW_INVALID_CERTIFICATES', true),
             ]
         ],
     ],

@@ -36,6 +36,8 @@ RUN pecl install redis \
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+RUN echo "extension=mongodb.so" > /usr/local/etc/php/conf.d/mongodb.ini
+
 # Copy existing application directory contents
 COPY ./lmw/ .
 
